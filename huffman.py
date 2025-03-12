@@ -15,7 +15,10 @@ class HuffmanEncoding:
         if src:
             self.buildTree()
         else:
-            pass
+            self.encoded_text = encoded_text
+            self.root = root
+            self.source_text = self.decode()
+            self.dictionary = self._build_dictionary()
             
 
             
@@ -54,7 +57,8 @@ class HuffmanEncoding:
         Returns:
             Node: The root node of the Huffman tree.
         """
-        pass
+        return self.root
+    
     def buildTree(self):
 
         #create a list for frequencies to be counted
@@ -79,7 +83,9 @@ class HuffmanEncoding:
             tree = self.Node(lNode.b + rNode.b, left = lNode, right= rNode)
             priorityQueue.insert(tree)
 
-            self.root = priorityQueue.del_min()
+        self.root = priorityQueue.del_min()
+        self.dictionary = self._build_dictionary()
+        return self.root
         
 
 
