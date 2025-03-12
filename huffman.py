@@ -13,7 +13,9 @@ class HuffmanEncoding:
             root (Node, optional): The root node of the Huffman tree for decoding.
         """
         if src:
+            self.source_text = src
             self.buildTree()
+            self.dictionary = self._build_dictionary()
         else:
             self.encoded_text = encoded_text
             self.root = root
@@ -84,7 +86,6 @@ class HuffmanEncoding:
             priorityQueue.insert(tree)
 
         self.root = priorityQueue.del_min()
-        self.dictionary = self._build_dictionary()
         return self.root
         
 
@@ -111,3 +112,36 @@ class HuffmanEncoding:
         dictionary.update(self._build_dictionary(node.left, prefix + '0'))
         dictionary.update(self._build_dictionary(node.right, prefix + '1'))
         return dictionary
+    
+    def decode(self):
+        """
+        Decodes the encoded text using the Huffman tree.
+        Returns:
+            str: The decoded text.
+        """
+        decoded_text = ''
+        node = self.root
+        for bit in self.encoded_text:
+            if node.is_leaf():
+                decoded_text += node.char
+                node = self.root
+            if bit == '0':
+                node = node.left
+            else:
+                node = node.right
+        decoded_text += node.char
+        return decoded_text
+    
+    def _encode(self):
+        et = {}
+        for char in self.src:
+            et.append(self.dictionary[char])
+        return et
+
+    
+a = "hello"
+h = HuffmanEncoding(src=a)
+h.buildTree()
+print(h.source_text)
+print(h.dictionary)
+print(a)
