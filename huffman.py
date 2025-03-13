@@ -76,7 +76,7 @@ class HuffmanEncoding:
         #build tree based off of this
         priorityQueue = MinPQ()
         for a, b in frequency_list.items():
-            priorityQueue.insert(self.Node(b, a))
+            priorityQueue.insert(self.Node( b, a))
         while priorityQueue.length > 1:
             #gets frequencies in the list and puts it in the tree
             lNode = priorityQueue.del_min()
@@ -119,18 +119,21 @@ class HuffmanEncoding:
         Returns:
             str: The decoded text.
         """
-        decoded_text = ''
+        decoded_text_fr = ''
         node = self.root
-        for bit in self.encoded_text:
+        for nombre in self.encoded_text:
             if node.is_leaf():
-                decoded_text += node.char
+                #if its a leaf, add the character to the decoded text
+                decoded_text_fr += node.char
                 node = self.root
-            if bit == '0':
+            if nombre == '0':
+                #if it is a leaf and 0 go left.
                 node = node.left
             else:
+                #if it is a leaf and not 0 it is 1, so right
                 node = node.right
-        decoded_text += node.char
-        return decoded_text
+        decoded_text_fr += node.char
+        return decoded_text_fr
     
     def _encode(self):
         et = {}
